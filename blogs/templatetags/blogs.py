@@ -57,35 +57,35 @@ def blog_days(blog, date=None, year=None, month=None):
 def blogs_current_blog(context):
     try:
         return context['request']._blogs_current_blog
-    except AttributeError:
+    except:
         pass
 
 @register.assignment_tag(takes_context=True)
 def blogs_current_date(context):
     try:
         return context['request']._blogs_current_date
-    except AttributeError:
+    except:
         pass
 
 @register.assignment_tag(takes_context=True)
 def blogs_current_year(context):
     try:
         return context['request']._blogs_current_year
-    except AttributeError:
+    except:
         pass
 
 @register.assignment_tag(takes_context=True)
 def blogs_current_month(context):
     try:
         return context['request']._blogs_current_month
-    except AttributeError:
+    except:
         pass
 
 @register.assignment_tag(takes_context=True)
 def blogs_current_day(context):
     try:
         return context['request']._blogs_current_day
-    except AttributeError:
+    except:
         pass
 
 @register.filter()

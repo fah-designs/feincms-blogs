@@ -12,16 +12,16 @@ register = template.Library()
 
 
 @register.assignment_tag
-def blog_years(blog):
+def blog_years(blog, order='ASC'):
     if not blog:
         return
 
-    qs = blog.posts.dates('date', 'year')
+    qs = blog.posts.dates('date', 'year', order=order)
     return [dt.year for dt in qs]
 
 
 @register.assignment_tag
-def blog_months(blog, date=None, year=None):
+def blog_months(blog, date=None, year=None, order='ASC'):
     if not blog:
         return
 
@@ -32,12 +32,12 @@ def blog_months(blog, date=None, year=None):
 
     qs = blog.posts.filter(
         date__year=year,
-    ).dates('date', 'month')
+    ).dates('date', 'month', order=order)
     return [dt.month for dt in qs]
 
 
 @register.assignment_tag
-def blog_days(blog, date=None, year=None, month=None):
+def blog_days(blog, date=None, year=None, month=None, order='ASC'):
     if not blog:
         return
 
@@ -50,7 +50,7 @@ def blog_days(blog, date=None, year=None, month=None):
     qs = blog.posts.filter(
         date__year=year,
         date__month=month,
-    ).dates('date', 'day')
+    ).dates('date', 'day', order=order)
     return [dt.day for dt in qs]
 
 @register.assignment_tag(takes_context=True)

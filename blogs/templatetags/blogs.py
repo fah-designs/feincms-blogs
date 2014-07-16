@@ -16,7 +16,7 @@ def blog_years(blog, order='ASC'):
     if not blog:
         return
 
-    qs = blog.posts.dates('date', 'year', order=order)
+    qs = blog.posts.active().dates('date', 'year', order=order)
     return [dt.year for dt in qs]
 
 
@@ -30,7 +30,7 @@ def blog_months(blog, date=None, year=None, order='ASC'):
     elif not year:
         return
 
-    qs = blog.posts.filter(
+    qs = blog.posts.active().filter(
         date__year=year,
     ).dates('date', 'month', order=order)
     return [dt.month for dt in qs]
@@ -47,7 +47,7 @@ def blog_days(blog, date=None, year=None, month=None, order='ASC'):
     elif not year or not month:
         return
 
-    qs = blog.posts.filter(
+    qs = blog.posts.active().filter(
         date__year=year,
         date__month=month,
     ).dates('date', 'day', order=order)

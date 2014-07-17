@@ -12,7 +12,7 @@ register = template.Library()
 
 
 @register.assignment_tag
-def blog_years(blog, order='ASC'):
+def blog_years(blog, order='DESC'):
     if not blog:
         return
 
@@ -21,7 +21,7 @@ def blog_years(blog, order='ASC'):
 
 
 @register.assignment_tag
-def blog_months(blog, date=None, year=None, order='ASC'):
+def blog_months(blog, date=None, year=None, order='DESC'):
     if not blog:
         return
 
@@ -37,7 +37,7 @@ def blog_months(blog, date=None, year=None, order='ASC'):
 
 
 @register.assignment_tag
-def blog_days(blog, date=None, year=None, month=None, order='ASC'):
+def blog_days(blog, date=None, year=None, month=None, order='DESC'):
     if not blog:
         return
 

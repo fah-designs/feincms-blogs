@@ -121,9 +121,9 @@ class BlogTestCase(TestCase):
         blog.posts.create(slug="3", date=date+year)
         blog.posts.create(slug="4", date=date-year, published=False)
         self.assertEqual(blog_years(blog),
-                         [date.year, date.year + 1])
-        self.assertEqual(blog_years(blog, order='DESC'),
                          [date.year + 1, date.year])
+        self.assertEqual(blog_years(blog, order='ASC'),
+                         [date.year, date.year + 1])
         self.assertEqual(blog_years(''), None)
 
     def test_blog_months(self):
@@ -135,13 +135,13 @@ class BlogTestCase(TestCase):
         blog.posts.create(slug="3", date=date-year)
         blog.posts.create(slug="4", date=date-month, published=False)
         self.assertEqual(blog_months(blog, date=date),
-                         [date.month, date.month + 1])
+                         [date.month + 1, date.month])
         self.assertEqual(blog_months(blog, year=date.year),
+                         [date.month + 1, date.month])
+        self.assertEqual(blog_months(blog, date=date, order='ASC'),
                          [date.month, date.month + 1])
-        self.assertEqual(blog_months(blog, date=date, order='DESC'),
-                         [date.month + 1, date.month])
-        self.assertEqual(blog_months(blog, year=date.year, order='DESC'),
-                         [date.month + 1, date.month])
+        self.assertEqual(blog_months(blog, year=date.year, order='ASC'),
+                         [date.month, date.month + 1])
         self.assertEqual(blog_months('', date=date), None)
         self.assertEqual(blog_months(blog, date=''), None)
         self.assertEqual(blog_months('', year=date.year), None)
@@ -158,14 +158,14 @@ class BlogTestCase(TestCase):
         blog.posts.create(slug="3", date=date-year)
         blog.posts.create(slug="4", date=date-day, published=False)
         self.assertEqual(blog_days(blog, year=date.year, month=date.month),
-                         [date.day, date.day + 1])
+                         [date.day + 1, date.day])
         self.assertEqual(blog_days(blog, date=date),
-                         [date.day, date.day + 1])
+                         [date.day + 1, date.day])
         self.assertEqual(blog_days(blog, year=date.year,
-                                   month=date.month, order='DESC'),
-                         [date.day + 1, date.day])
-        self.assertEqual(blog_days(blog, date=date, order='DESC'),
-                         [date.day + 1, date.day])
+                                   month=date.month, order='ASC'),
+                         [date.day, date.day + 1])
+        self.assertEqual(blog_days(blog, date=date, order='ASC'),
+                         [date.day, date.day + 1])
         self.assertEqual(blog_days('', date=date), None)
         self.assertEqual(blog_days(blog, date=''), None)
         self.assertEqual(blog_days('', year=date.year, month=date.month), None)

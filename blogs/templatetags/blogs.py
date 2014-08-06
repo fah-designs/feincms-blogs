@@ -64,22 +64,6 @@ def blog_days(blog, date=None, year=None, month=None, order='DESC'):
 @register.assignment_tag(takes_context=True)
 def blogs_available(context):
     return Blog.objects.all()
-    print 'blogs_available called'
-    result = '<select>'
-    result += 'thingy'
-    result += '<option '
-    if not hasattr(context['request'], '_blogs_current_blog'):
-        result += 'selected '
-    result += 'value="all">All</option>'
-    for blog in Blog.objects.all():
-        result += '<option '
-        if (hasattr(context['request'], '_blogs_current_blog')
-                and blog == context['request']._blogs_current_blog):
-            result += 'selected '
-        result += 'value="%s">%s</option>' % (blog.slug, blog.name)
-    result += '</select>'
-    print result
-    return result
 
 @register.assignment_tag(takes_context=True)
 def blogs_current_blog(context):

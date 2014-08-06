@@ -8,29 +8,35 @@ from django import template
 from django.db.models import F
 from django.utils.dateformat import format
 
+from djapps.blogs.models import Post
+
 register = template.Library()
 
 
 @register.assignment_tag
 def blog_years(blog, order='DESC'):
     if not blog:
-        return
+        qsroot = Post.objects
+    else:
+        qsroot = blog.posts
 
-    qs = blog.posts.active().dates('date', 'year', order=order)
+    qs = qsroot.active().dates('date', 'year', order=order)
     return [dt.year for dt in qs]
 
 
 @register.assignment_tag
 def blog_months(blog, date=None, year=None, order='DESC'):
     if not blog:
-        return
+        qsroot = Post.objects
+    else:
+        qsroot = blog.posts
 
     if date:
         year = date.year
     elif not year:
         return
 
-    qs = blog.posts.active().filter(
+    qs = qsroot.active().filter(
         date__year=year,
     ).dates('date', 'month', order=order)
     return [dt.month for dt in qs]
@@ -39,7 +45,9 @@ def blog_months(blog, date=None, year=None, order='DESC'):
 @register.assignment_tag
 def blog_days(blog, date=None, year=None, month=None, order='DESC'):
     if not blog:
-        return
+        qsroot = Post.objects
+    else:
+        qsroot = blog.posts
 
     if date:
         year = date.year
@@ -47,7 +55,7 @@ def blog_days(blog, date=None, year=None, month=None, order='DESC'):
     elif not year or not month:
         return
 
-    qs = blog.posts.active().filter(
+    qs = qsroot.active().filter(
         date__year=year,
         date__month=month,
     ).dates('date', 'day', order=order)

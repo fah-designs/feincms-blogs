@@ -90,9 +90,13 @@ class PostListView(ListView):
         data["year"] = self.kwargs.get('date__year', None)
         data["month"] = self.kwargs.get('date__month', None)
         data["day"] = self.kwargs.get('date__day', None)
-        blog = Blog.objects.get(slug=self.kwargs['blog__slug'])
-        data["blog"] = blog
-        self.request._blogs_current_blog = blog
+        blogslug = self.kwargs.get('blog__slug', False)
+        if blogslug:
+            blog = Blog.objects.filter(slug=blogslug).first()
+            if blog is None:
+                raise Http404(_("Blog not found"))
+            data["blog"] = blog
+            self.request._blogs_current_blog = blog
         self.request._blogs_current_date = self.range_start
         self.request._blogs_current_year = int(self.kwargs.get('date__year', 0))
         self.request._blogs_current_month = int(self.kwargs.get('date__month', 0))

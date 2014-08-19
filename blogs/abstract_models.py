@@ -1,6 +1,8 @@
 import operator
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
@@ -85,6 +87,18 @@ class AbstractPost(create_base_model(), ContentModelMixin):
 
     def get_absolute_url(self):
         return resolve_url("blogs:post_permalink", pk=self.pk)
+
+    def get_pretty_url(self):
+        return reverse(
+            "blogs:post",
+            args=[
+                self.blog.slug,
+                self.date.year,
+                self.date.month,
+                self.date.day,
+                self.slug,
+            ]
+        )
 
     def next(self):
         return self.blog.posts.after(self).last()

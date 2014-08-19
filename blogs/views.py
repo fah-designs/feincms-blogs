@@ -22,16 +22,7 @@ class PostPermalinkView(SingleObjectMixin, View):
         post = self.get_object()
 
         return HttpResponseRedirect(
-            reverse(
-                "blogs:post",
-                args=[
-                    post.blog.slug,
-                    post.date.year,
-                    post.date.month,
-                    post.date.day,
-                    post.slug,
-                ]
-            )
+            post.get_pretty_url()
         )
 
 
